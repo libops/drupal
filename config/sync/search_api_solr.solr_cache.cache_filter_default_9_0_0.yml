@@ -1,0 +1,21 @@
+uuid: a6cd9e58-da30-4294-903b-f8ce69159c67
+langcode: en
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: kPqER5Lz5zFQ-x9Mmadmzp6QuCx8HkqXZaPkTNWoN64
+id: cache_filter_default_9_0_0
+label: 'Filter Cache'
+minimum_solr_version: 9.0.0
+environments: {  }
+cache:
+  name: filter
+  class: solr.CaffeineCache
+  size: 512
+  initialSize: 512
+  autowarmCount: 0
+solr_configs:
+  query:
+    -
+      name: useFilterForSortedQuery
+      VALUE: 'false'
