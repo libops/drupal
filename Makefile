@@ -1,6 +1,6 @@
 .PHONY: help
 .PHONY: build pull down down-% logs-% up up-%
-.PHONY: clean init ping status
+.PHONY: clean init lint ping rollout status test
 .PHONY: traefik-http traefik-https-letsencrypt traefik-https-mkcert
 .PHONY: sequelace
 .SILENT:
@@ -35,6 +35,12 @@ pull:
 build: pull ## Build the drupal container
 	./scripts/build.sh
 
+lint: ## Lint custom Drupal code
+	./scripts/lint.sh
+
+test: ## Run custom Drupal tests
+	./scripts/test.sh
+
 init: ## Get the host machine configured to run ISLE
 	./scripts/init.sh
 
@@ -58,6 +64,9 @@ clean:  ## Delete all stateful data.
 
 ping:  ## Ensure site is available.
 	./scripts/ping.sh
+
+rollout: ## Roll out the currently checked out Drupal stack.
+	./scripts/rollout.sh
 
 sequelace:
 	./scripts/sequelace.sh

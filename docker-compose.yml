@@ -65,6 +65,8 @@ services:
   drupal:
     <<: *common
     image: ${DOCKER_REPOSITORY}/${COMPOSE_PROJECT_NAME}:latest
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     build:
       context: .
       x-bake:
@@ -87,6 +89,8 @@ services:
       NGINX_SET_REAL_IP_FROM2: ${FRONTEND_IP_2}
       NGINX_SET_REAL_IP_FROM3: ${FRONTEND_IP_3}
       DRUPAL_ENABLE_HTTPS: "false"
+      LIBOPS_SMTP_HOST: "${LIBOPS_SMTP_HOST:-host.docker.internal}"
+      LIBOPS_SMTP_PORT: "${LIBOPS_SMTP_PORT:-25}"
     healthcheck:
       start_period: 10s
     secrets:

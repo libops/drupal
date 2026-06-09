@@ -27,6 +27,18 @@ $config['search_api.server.default_solr_server']['backend_config']['connector_co
 $config['search_api.server.default_solr_server']['backend_config']['connector_config']['port'] = file_get_contents($path . 'DRUPAL_DEFAULT_SOLR_PORT');
 $config['search_api.server.default_solr_server']['backend_config']['connector_config']['core'] = file_get_contents($path . 'DRUPAL_DEFAULT_SOLR_CORE');
 
+$smtp_host = file_exists($path . 'LIBOPS_SMTP_HOST') ? trim(file_get_contents($path . 'LIBOPS_SMTP_HOST')) : 'host.docker.internal';
+$smtp_port = file_exists($path . 'LIBOPS_SMTP_PORT') ? (int) trim(file_get_contents($path . 'LIBOPS_SMTP_PORT')) : 25;
+$config['system.mail']['interface']['default'] = 'symfony_mailer';
+$config['system.mail']['mailer_dsn'] = [
+  'scheme' => 'smtp',
+  'host' => $smtp_host,
+  'user' => null,
+  'password' => null,
+  'port' => $smtp_port,
+  'options' => [],
+];
+
 // Some settings are derived from environment variables.
 $settings['hash_salt'] = file_get_contents($path . 'DRUPAL_DEFAULT_SALT');
 $settings['trusted_host_patterns'] = [
