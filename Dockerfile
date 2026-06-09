@@ -1,4 +1,4 @@
-FROM islandora/drupal:6.3.10
+FROM islandora/drupal:6.4.3@sha256:0a4b11d1412eb78db33cf532874fb44b6c6f00e1de34c5cb8792a3cb97386bb0
 
 ARG TARGETARCH
 

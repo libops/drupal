@@ -38,7 +38,7 @@ secrets:
 
 services:
   init:
-    image: islandora/base:6.3.10
+    image: islandora/base:6.4.3@sha256:67331b4a0a3adf90216ee7e192013842790ddda61124ccdced18a35b7e8aace9
     restart: no
     networks:
       default:
@@ -56,7 +56,7 @@ services:
 
   mariadb:
     <<: *common
-    image: islandora/mariadb:6.3.10
+    image: islandora/mariadb:6.4.3@sha256:8f41414cba3286567e0590fa5428e2860e3351f13b1377666b1d362b01e6fe6e
     secrets:
       - source: DB_ROOT_PASSWORD
     volumes:
@@ -114,7 +114,7 @@ services:
 
   solr:
     <<: *common
-    image: islandora/solr:6.3.10
+    image: islandora/solr:6.4.3@sha256:5cb87ecc431acd07000374dd7e83897b10033ecdfa679e1c5f2426957e636127
     volumes:
       - solr-data:/data:rw
       - type: volume
@@ -129,7 +129,7 @@ services:
 
   traefik:
     <<: *common
-    image: traefik:v3.6.11@sha256:acfc80650104f0194a15f73dc1648f517561bc1645391a15705332a064cfc33c
+    image: traefik:v3.7.4@sha256:fcdef599e6259359833dd2e1d49f9e964f66825d69bd3dd468f51102ce013d03
     command: >-
       --ping=true
       --log.level=INFO
