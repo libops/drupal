@@ -38,7 +38,7 @@ secrets:
 
 services:
   init:
-    image: islandora/base:6.3.10
+    image: islandora/base:6.3.10@sha256:c6e74b6c0bdf8070571c33e479b09f8b1163e44a86a9ea0374dfc6aeb5d96145
     restart: no
     networks:
       default:
@@ -56,7 +56,7 @@ services:
 
   mariadb:
     <<: *common
-    image: islandora/mariadb:6.3.10
+    image: islandora/mariadb:6.3.10@sha256:a18b93704fbb969d6ab55152af1a4f27270e77817e7986350e482e178e135325
     secrets:
       - source: DB_ROOT_PASSWORD
     volumes:
@@ -114,7 +114,7 @@ services:
 
   solr:
     <<: *common
-    image: islandora/solr:6.3.10
+    image: islandora/solr:6.3.10@sha256:225b7bca72d5751c692503b97e665a6f4dff0a925f910402b9f857468cc272db
     volumes:
       - solr-data:/data:rw
       - type: volume
