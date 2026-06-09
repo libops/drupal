@@ -80,7 +80,7 @@ services:
       DRUPAL_DEFAULT_CONFIGDIR: "/var/www/drupal/config/sync"
       DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG: "true"
       DRUPAL_DEFAULT_NAME: "Drupal-Website"
-      DRUPAL_DEFAULT_PROFILE: "standard"
+      DRUPAL_DEFAULT_PROFILE: "minimal"
       DRUPAL_DEFAULT_SITE_URL: "${DOMAIN}"
       DRUPAL_DEFAULT_SOLR_CORE: "default"
       DRUSH_OPTIONS_URI: "${URI_SCHEME}://${DOMAIN}"
