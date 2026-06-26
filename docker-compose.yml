@@ -85,7 +85,9 @@ services:
       DRUPAL_DEFAULT_NAME: "Drupal-Website"
       DRUPAL_DEFAULT_PROFILE: "minimal"
       DRUPAL_DEFAULT_SITE_URL: "${DOMAIN}"
+      DRUPAL_DEFAULT_SOLR_HOST: "solr"
       DRUPAL_DEFAULT_SOLR_CORE: "default"
+      DRUPAL_DEFAULT_SOLR_PORT: "8983"
       DRUSH_OPTIONS_URI: "${URI_SCHEME}://${DOMAIN}"
       NGINX_REAL_IP_RECURSIVE: ${REVERSE_PROXY}
       NGINX_SET_REAL_IP_FROM: ${FRONTEND_IP_1}
@@ -100,6 +102,7 @@ services:
       - source: DB_ROOT_PASSWORD
       - source: DRUPAL_DEFAULT_ACCOUNT_PASSWORD
       - source: DRUPAL_DEFAULT_DB_PASSWORD
+        target: DB_PASSWORD
       - source: DRUPAL_DEFAULT_SALT
       - source: CERT_AUTHORITY
       - source: UID
