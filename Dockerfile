@@ -1,10 +1,12 @@
 # syntax=docker/dockerfile:1.20.0
-ARG BASE_IMAGE=libops/drupal:php83
+ARG BASE_IMAGE=libops/drupal:php84
 FROM ${BASE_IMAGE}
 
 ARG TARGETARCH
 
-ENV COMPOSER_ALLOW_SUPERUSER=1
+ENV \
+    COMPOSER_ALLOW_SUPERUSER=1 \
+    COMPOSER_MEMORY_LIMIT=-1
 WORKDIR /var/www/drupal
 
 COPY --link composer.json composer.lock /var/www/drupal/
