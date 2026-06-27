@@ -87,7 +87,7 @@ services:
       DRUPAL_DEFAULT_SOLR_HOST: "solr"
       DRUPAL_DEFAULT_SOLR_CORE: "default"
       DRUPAL_DEFAULT_SOLR_PORT: "8983"
-      DRUSH_OPTIONS_URI: "http://${DOMAIN}"
+      DRUSH_OPTIONS_URI: "${SITE_URL:-${URI_SCHEME:-http}://${DOMAIN}}"
       DRUPAL_ENABLE_HTTPS: "false"
       LIBOPS_SMTP_HOST: host.docker.internal
       LIBOPS_SMTP_PORT: "25"
