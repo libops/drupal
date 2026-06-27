@@ -47,4 +47,7 @@ else
   fi
 fi
 
-make build
+mkdir -p ./certs
+id -u > ./certs/UID
+docker compose pull --ignore-buildable --ignore-pull-failures
+docker compose build --pull
