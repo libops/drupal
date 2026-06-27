@@ -4,7 +4,7 @@ LibOps Docker Compose template for running a Composer-managed [Drupal](https://w
 
 ## Requirements
 
-- `sitectl` installed on the host that will run the site.
+- [sitectl](https://sitectl.libops.io/install) installed on the host that will run the site.
 - Docker with the Compose v2 plugin installed on the same host.
 
 ## Quick start
@@ -55,7 +55,7 @@ sitectl set upload-limits enabled --max-upload-size 2G --upload-timeout 10m
 sitectl converge
 ```
 
-See the [Drupal sitectl plugin docs](https://github.com/libops/sitectl-docs/blob/main/plugins/drupal.mdx) for Drush helpers, development mode, sync operations, login links, and Drupal-specific jobs.
+See the [Drupal sitectl plugin docs](https://sitectl.libops.io/plugins/drupal) for Drush helpers, development mode, sync operations, login links, and Drupal-specific jobs.
 
 ## Makefile
 
@@ -79,3 +79,7 @@ Use `sitectl compose ...`, `sitectl traefik ...`, and `sitectl set ...` directly
 - Secrets are generated into `./secrets/`.
 
 Drupal code is Composer-managed. Custom modules and themes belong under `web/modules/custom` and `web/themes/custom`.
+
+## License
+
+The Docker Compose template and LibOps-specific setup in this repository are licensed under the MIT License. The Drupal recommended project is licensed separately under the GNU General Public License v2; see `LICENSE.drupal-recommended-project`.
