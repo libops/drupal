@@ -91,7 +91,7 @@ See the [Drupal sitectl plugin docs](https://sitectl.libops.io/plugins/drupal) f
 The Makefile is intentionally small. It only keeps Drupal-specific targets that are not core sitectl operations:
 
 ```bash
-make rollout
+sitectl deploy
 make clean
 make test
 make lint
