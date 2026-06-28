@@ -71,12 +71,6 @@ services:
       pull: true
       args:
         BASE_IMAGE: libops/drupal:php84
-      x-bake:
-        platforms: [linux/amd64, linux/arm64]
-        cache-from:
-          - type=registry,ref=libops/drupal:php84
-        cache-to:
-          - type=inline
     environment:
       DEVELOPMENT_ENVIRONMENT: "false"
       DRUPAL_DEFAULT_CONFIGDIR: "/var/www/drupal/config/sync"
@@ -144,11 +138,11 @@ services:
       --api.dashboard=false
       --api.debug=false
     environment:
-      URI_SCHEME: http
+      URI_SCHEME: "${URI_SCHEME:-http}"
       DOMAIN: ${DOMAIN}
       DEVELOPMENT_ENVIRONMENT: "false"
     ports:
-      - "${HOST_INSECURE_PORT:-80}:80"
+      - "80:80"
     security_opt:
       - label=type:container_runtime_t
     volumes:

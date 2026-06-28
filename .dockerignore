@@ -2,3 +2,5 @@ web/core
 web/modules/contrib
 web/themes/contrib
 vendor
+docker-compose.override.yml
+docker-compose.override.yaml
