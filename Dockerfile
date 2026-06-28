@@ -1,4 +1,3 @@
-# syntax=docker/dockerfile:1.20.0
 ARG BASE_IMAGE=libops/drupal:php84
 FROM ${BASE_IMAGE}
 
