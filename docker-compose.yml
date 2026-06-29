@@ -63,7 +63,6 @@ services:
 
   drupal:
     <<: *common
-    image: libops/drupal:php84
     extra_hosts:
       - "host.docker.internal:host-gateway"
     build:
