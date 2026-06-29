@@ -68,7 +68,6 @@ services:
       - "host.docker.internal:host-gateway"
     build:
       context: .
-      pull: true
       args:
         BASE_IMAGE: libops/drupal:php84
     environment:
@@ -87,6 +86,9 @@ services:
       LIBOPS_SMTP_PORT: "25"
     healthcheck:
       start_period: 10s
+    depends_on:
+      mariadb:
+        condition: service_healthy
     secrets:
       - source: DB_ROOT_PASSWORD
       - source: DRUPAL_DEFAULT_ACCOUNT_PASSWORD
