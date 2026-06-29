@@ -42,7 +42,6 @@ services:
     networks:
       default:
     volumes:
-      - ./.env:/.env
       - ./certs:/certs:rw
       - ./secrets:/secrets:rw
       - ./scripts:/scripts:ro
@@ -75,11 +74,11 @@ services:
       DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG: "true"
       DRUPAL_DEFAULT_NAME: "Drupal-Website"
       DRUPAL_DEFAULT_PROFILE: "minimal"
-      DRUPAL_DEFAULT_SITE_URL: "${DOMAIN}"
+      DRUPAL_DEFAULT_SITE_URL: "http://localhost"
       DRUPAL_DEFAULT_SOLR_HOST: "solr"
       DRUPAL_DEFAULT_SOLR_CORE: "default"
       DRUPAL_DEFAULT_SOLR_PORT: "8983"
-      DRUSH_OPTIONS_URI: "${SITE_URL:-${URI_SCHEME:-http}://${DOMAIN}}"
+      DRUSH_OPTIONS_URI: "http://localhost"
       DRUPAL_ENABLE_HTTPS: "false"
       LIBOPS_SMTP_HOST: host.docker.internal
       LIBOPS_SMTP_PORT: "25"
@@ -138,10 +137,6 @@ services:
       --api.insecure=false
       --api.dashboard=false
       --api.debug=false
-    environment:
-      URI_SCHEME: "${URI_SCHEME:-http}"
-      DOMAIN: ${DOMAIN}
-      DEVELOPMENT_ENVIRONMENT: "false"
     ports:
       - "80:80"
     security_opt:
@@ -152,11 +147,6 @@ services:
     healthcheck:
       test: traefik healthcheck --ping
       start_period: 10s
-    networks:
-      default:
-        aliases:
-          - ${DOMAIN}
-          - solr.${DOMAIN}
     depends_on:
       drupal:
         condition: service_healthy

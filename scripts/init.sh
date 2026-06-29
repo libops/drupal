@@ -2,16 +2,12 @@
 
 set -eou pipefail
 
-if [ ! -f .env ]; then
-  cp sample.env .env
-fi
-
 # shellcheck disable=SC1091
 source "$(dirname "${BASH_SOURCE[0]}")/profile.sh"
 
 if is_dev_mode && is_docker_rootless; then
   echo "Development mode is not supported on rootless docker."
-  echo "You must set DEVELOPMENT_ENVIRONMENT=false in .env"
+  echo "Set DEVELOPMENT_ENVIRONMENT=false in the compose service environment."
   exit 0
 fi
 

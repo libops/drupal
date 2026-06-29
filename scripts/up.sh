@@ -2,17 +2,6 @@
 
 set -eou pipefail
 
-if [ -f .env ]; then
-  # Export variables so docker-compose and this script can see them
-  # shellcheck disable=SC1091
-  source .env
-else
-  echo "Error: .env file not found." >&2
-  ./scripts/init.sh
-  # shellcheck disable=SC1091
-  source .env
-fi
-
 # shellcheck disable=SC1091
 source "$(dirname "${BASH_SOURCE[0]}")/profile.sh"
 
@@ -26,7 +15,7 @@ docker compose up --remove-orphans -d || {
     docker compose up --remove-orphans -d
 }
 
-URL="${SITE_URL:-${URI_SCHEME}://${DOMAIN}}"
+URL="$(site_url)"
 
 skip_public_ping="${SKIP_PUBLIC_PING:-false}"
 if [ "${skip_public_ping}" = "true" ]; then
