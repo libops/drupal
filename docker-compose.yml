@@ -68,7 +68,7 @@ services:
     build:
       context: .
       args:
-        BASE_IMAGE: libops/drupal:php84
+        BASE_IMAGE: libops/drupal:nginx-1.30.3-php84
     environment:
       DEVELOPMENT_ENVIRONMENT: "false"
       DRUPAL_DEFAULT_CONFIGDIR: "/var/www/drupal/config/sync"
