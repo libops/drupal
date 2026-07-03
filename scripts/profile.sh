@@ -57,9 +57,15 @@ compose_env_value() {
 site_url() {
     local configured="${SITE_URL:-}"
 
-    if [ -z "$configured" ]; then
-        configured="$(compose_env_value drupal DRUPAL_DEFAULT_SITE_URL || true)"
+    if [ -n "$configured" ]; then
+        printf '%s\n' "$configured"
+        return
     fi
 
-    printf '%s\n' "${configured:-http://localhost}"
+    local hostnames hostname scheme
+    hostnames="$(compose_env_value drupal INGRESS_HOSTNAMES || true)"
+    hostname="${hostnames%%,*}"
+    hostname="${hostname//[[:space:]]/}"
+    scheme="$(compose_env_value drupal INGRESS_SCHEME || true)"
+    printf '%s://%s\n' "${scheme:-http}" "${hostname:-localhost}"
 }

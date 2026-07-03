@@ -74,12 +74,11 @@ services:
       DRUPAL_DEFAULT_INSTALL_EXISTING_CONFIG: "true"
       DRUPAL_DEFAULT_NAME: "Drupal-Website"
       DRUPAL_DEFAULT_PROFILE: "minimal"
-      DRUPAL_DEFAULT_SITE_URL: "http://localhost"
       DRUPAL_DEFAULT_SOLR_HOST: "solr"
       DRUPAL_DEFAULT_SOLR_CORE: "default"
       DRUPAL_DEFAULT_SOLR_PORT: "8983"
-      DRUSH_OPTIONS_URI: "http://localhost"
-      DRUPAL_ENABLE_HTTPS: "false"
+      INGRESS_HOSTNAMES: "localhost"
+      INGRESS_SCHEME: "http"
       LIBOPS_SMTP_HOST: host.docker.internal
       LIBOPS_SMTP_PORT: "25"
     healthcheck:
