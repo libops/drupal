@@ -66,7 +66,7 @@ sitectl converge
 Publish a domain, switch HTTP/TLS mode, configure Let's Encrypt, trust upstream proxies, or tune upload limits with the `ingress` component:
 
 ```bash
-sitectl set ingress enabled --mode https-default --domain drupal.localhost
+sitectl set ingress enabled --mode https-custom --domain drupal.localhost
 sitectl set ingress enabled --mode https-letsencrypt --domain drupal.example.org --acme-email ops@example.org
 sitectl set ingress enabled --trusted-ip 203.0.113.10/32 --max-upload-size 2G --upload-timeout 10m
 sitectl converge
