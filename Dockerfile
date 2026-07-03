@@ -33,7 +33,8 @@ ENV \
     DRUPAL_DEFAULT_NAME=Drupal \
     DRUPAL_DEFAULT_PROFILE=minimal \
     DRUPAL_DEFAULT_SUBDIR=default \
-    DRUPAL_ENABLE_HTTPS=false \
+    INGRESS_HOSTNAMES=localhost \
+    INGRESS_SCHEME=http \
     S6_CMD_WAIT_FOR_SERVICES_MAXTIME=600000
 
 RUN chown -R nginx:nginx /var/www/drupal
