@@ -1,12 +1,7 @@
 ---
-name: drupal
-
 # Common to all services
 x-common: &common
   restart: unless-stopped
-  tty: true # Required for non-root users with selinux enabled.
-  security_opt:
-    - label=type:container_runtime_t # Required for selinux to access the docker socket and bind mount files.
   networks:
     default:
 networks:
@@ -37,24 +32,21 @@ secrets:
 
 services:
   init:
-    image: libops/base:3.2.2.0
+    image: libops/base:3.2.2.0@sha256:2382876ad70c936e99f6b838fb16c709cb9d9f91e6aa3be5625355ee1f3fab90
     restart: no
     networks:
       default:
     volumes:
-      - ./certs:/certs:rw
-      - ./secrets:/secrets:rw
-      - ./scripts:/scripts:ro
-      - ./docker-compose.yml:/docker-compose.yml:ro
-      - /var/run/docker.sock:/var/run/docker.sock:z
-    security_opt:
-      - label=type:container_runtime_t
+      - ./certs:/certs:rw,z
+      - ./secrets:/secrets:rw,z
+      - ./scripts:/scripts:ro,z
+      - ./docker-compose.yml:/docker-compose.yml:ro,z
     entrypoint: /scripts/init-entrypoint.sh
     profiles: [none]
 
   mariadb:
     <<: *common
-    image: libops/mariadb:11@sha256:df935aa57a4444a1bd9024afdf8b3d78abfdfa2c4662320badd099fa6193de6b
+    image: libops/mariadb:11@sha256:edc726a734409b93a54535e9251132d778575c0f7e77ae4ef552c9fe936cc560
     secrets:
       - source: DB_ROOT_PASSWORD
     volumes:
@@ -66,8 +58,6 @@ services:
       - "host.docker.internal:host-gateway"
     build:
       context: .
-      args:
-        BASE_IMAGE: libops/drupal:nginx-1.30.3-php84
     environment:
       DEVELOPMENT_ENVIRONMENT: "false"
       DRUPAL_DEFAULT_CONFIGDIR: "/var/www/drupal/config/sync"
@@ -84,10 +74,11 @@ services:
     healthcheck:
       start_period: 10s
     depends_on:
+      database-init:
+        condition: service_completed_successfully
       mariadb:
         condition: service_healthy
     secrets:
-      - source: DB_ROOT_PASSWORD
       - source: DRUPAL_DEFAULT_ACCOUNT_PASSWORD
       - source: DRUPAL_DEFAULT_DB_PASSWORD
         target: DB_PASSWORD
@@ -106,9 +97,32 @@ services:
       - drupal-solr-config:/opt/solr/server/solr/default:z,rw
       - ./config:/var/www/drupal/config:z,rw
 
+  database-init:
+    image: libops/base:3.2.2.0@sha256:2382876ad70c936e99f6b838fb16c709cb9d9f91e6aa3be5625355ee1f3fab90
+    restart: "no"
+    networks:
+      default:
+    environment:
+      DB_HOST: mariadb
+      DB_PORT: "3306"
+      DB_NAME: drupal
+      DB_USER: drupal
+      DB_CHARACTER_SET: utf8mb4
+      DB_COLLATION: utf8mb4_unicode_ci
+    secrets:
+      - source: DB_ROOT_PASSWORD
+      - source: DRUPAL_DEFAULT_DB_PASSWORD
+        target: DB_PASSWORD
+    volumes:
+      - ./scripts/init-database.sh:/usr/local/bin/init-database.sh:ro,z
+    entrypoint: /usr/local/bin/init-database.sh
+    depends_on:
+      mariadb:
+        condition: service_healthy
+
   solr:
     <<: *common
-    image: libops/solr:9@sha256:da3127bddee9404e6428f8fb927d63a68ee93476022de96c021dffaea78b3537
+    image: libops/solr:9@sha256:87ceec3ac1f0555455f7e2164ab7c87e8027c3a1e06144849d4d5daa45313bd9
     volumes:
       - solr-data:/data:rw
       - type: volume
@@ -123,26 +137,21 @@ services:
 
   traefik:
     <<: *common
-    image: traefik:v3.7.4@sha256:fcdef599e6259359833dd2e1d49f9e964f66825d69bd3dd468f51102ce013d03
+    image: traefik:v3.7.5@sha256:e4d98158c01ad752fc1071d4e9573788747230d902cdde00a772516e692d07c9
     command: >-
       --ping=true
       --log.level=INFO
       --entryPoints.http.address=:80
       --entryPoints.http.transport.respondingTimeouts.readTimeout=300s
       --providers.file.directory=/etc/traefik/dynamic
-      --providers.docker=true
-      --providers.docker.network=default
-      --providers.docker.exposedByDefault=false
+      --providers.file.watch=true
       --api.insecure=false
       --api.dashboard=false
       --api.debug=false
     ports:
       - "80:80"
-    security_opt:
-      - label=type:container_runtime_t
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:z
-      - ./conf/traefik:/etc/traefik/dynamic:ro
+      - ./conf/traefik:/etc/traefik/dynamic:ro,z
     healthcheck:
       test: traefik healthcheck --ping
       start_period: 10s

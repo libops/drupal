@@ -2,6 +2,8 @@
 
 set -euo pipefail
 
+./scripts/init.sh
+
 service="${DRUPAL_SERVICE:-drupal}"
 custom_dir="${DRUPAL_CUSTOM_DIR:-web/modules/custom}"
 

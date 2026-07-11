@@ -65,4 +65,10 @@
 
 docker-compose.override.yml
 docker-compose.override.yaml
-.env
+.env*
+certs/*
+!certs/.gitignore
+secrets/*
+!secrets/.gitignore
+backups/
+acme.json

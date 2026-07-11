@@ -32,6 +32,8 @@ The site is served through Traefik at `http://localhost`. The first boot install
 
 The `drupal` service builds this checkout on top of the LibOps Drupal base image. The Dockerfile copies Composer lockfiles and assets before local modules, themes, config, and rootfs additions so Docker can reuse dependency layers when only site customizations change. Local builds use the platform selected by the Docker CLI and do not push images.
 
+Docker Compose derives the project name from the checkout directory, so independent forks do not share containers, networks, or named volumes by default. Set `COMPOSE_PROJECT_NAME` explicitly when a stable name is required. If an existing checkout previously relied on this template's fixed `drupal` project name, set `COMPOSE_PROJECT_NAME=drupal` before starting it to keep using its existing named volumes, or migrate those volumes deliberately.
+
 ## Basic Operations
 
 Run these from the generated checkout, or add `--context <name>` when operating from elsewhere.
@@ -49,18 +51,17 @@ sitectl healthcheck
 sitectl validate
 ```
 
-Update image tags or pin a full image reference with [`sitectl image`](https://sitectl.libops.io/commands/image):
+Update the application base tag or pin that base by digest with [`sitectl image`](https://sitectl.libops.io/commands/image):
 
 ```bash
 sitectl image set --tag drupal=nginx-1.30.3-php84
-sitectl image set --image drupal=libops/drupal:nginx-1.30.3-php84@sha256:...
+sitectl image set --build-arg drupal.BASE_IMAGE=libops/drupal:nginx-1.30.3-php84@sha256:...
 ```
 
-Enable local development bind mounts with [`sitectl set`](https://sitectl.libops.io/commands/set), then apply the component change with [`sitectl converge`](https://sitectl.libops.io/commands/converge):
+Enable local development bind mounts with [`sitectl set`](https://sitectl.libops.io/commands/set):
 
 ```bash
 sitectl set dev-mode enabled
-sitectl converge
 ```
 
 Publish a domain, switch HTTP/TLS mode, configure Let's Encrypt, trust upstream proxies, or tune upload limits with the `ingress` component:
@@ -69,8 +70,9 @@ Publish a domain, switch HTTP/TLS mode, configure Let's Encrypt, trust upstream 
 sitectl set ingress enabled --mode https-custom --domain drupal.localhost
 sitectl set ingress enabled --mode https-letsencrypt --domain drupal.example.org --acme-email ops@example.org
 sitectl set ingress enabled --trusted-ip 203.0.113.10/32 --max-upload-size 2G --upload-timeout 10m
-sitectl converge
 ```
+
+`sitectl set` applies the requested component change immediately. Use `sitectl converge` when you want an interactive review of the complete component state.
 
 The ingress component writes `INGRESS_HOSTNAMES` as comma-separated hostnames and `INGRESS_SCHEME` as `http` or `https` into the app container. Runtime config is rendered from those values during container startup, so generated sites should not carry separate app URL env vars for the same public route.
 
@@ -98,6 +100,8 @@ Use `sitectl compose ...` and `sitectl set ...` directly for normal stack operat
 - Secrets are generated into `./secrets/`.
 
 Drupal code is Composer-managed. Custom modules and themes belong under `web/modules/custom` and `web/themes/custom`.
+
+Only MariaDB and the one-shot `database-init` service receive `DB_ROOT_PASSWORD`. The initializer idempotently creates the database and scoped user before Drupal starts; the long-running app receives only `DRUPAL_DEFAULT_DB_PASSWORD` as `DB_PASSWORD`.
 
 ## License
 
