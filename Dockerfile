@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=libops/drupal:nginx-1.30.3-php84
+ARG BASE_IMAGE=libops/drupal:nginx-1.30.3-php84@sha256:5ab5c85824575a1a6d8c006f1f0664210dfdb76b10cad34afa7d1fa8443f64ca
 FROM ${BASE_IMAGE}
 
 ARG TARGETARCH
