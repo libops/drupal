@@ -21,7 +21,7 @@ jobs:
         include:
           - create_definition: default
             create_args: ""
-    uses: libops/.github/.github/workflows/sitectl-create-smoke-test.yaml@578137212ead4ab4059e95df17fa30e9b7ac4aed # main
+    uses: libops/.github/.github/workflows/sitectl-create-smoke-test.yaml@55489923a34bd3714d2a1b9c5f8a6c678ea1cbfe # main
     with:
       plugin: drupal
       create-definition: ${{ matrix.create_definition }}
