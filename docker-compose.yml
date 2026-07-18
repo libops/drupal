@@ -122,7 +122,7 @@ services:
 
   solr:
     <<: *common
-    image: libops/solr:9@sha256:d4f5d06c5cba47677ba96580c1a8b524f26f93c0d05392dc287b34da9ca07d86
+    image: libops/solr:10@sha256:ddf9d01028d557a623e0ab18acdcb981001eebca2eaeb6e51a0ab268b0762152
     volumes:
       - solr-data:/data:rw
       - type: volume
