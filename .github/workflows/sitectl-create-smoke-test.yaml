@@ -26,4 +26,10 @@ jobs:
       plugin: drupal
       create-definition: ${{ matrix.create_definition }}
       create-args: ${{ matrix.create_args }}
-      packages: sitectl sitectl-drupal
+      local-plugin-path: sitectl-drupal
+      local-plugin-repository: libops/sitectl-drupal
+      local-plugin-ref: priority-review-remediation
+      packages: sitectl
+      package-versions: sitectl=1.8.1
+      allow-unversioned-packages: false
+      run-verify: true

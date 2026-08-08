@@ -23,7 +23,7 @@ clean: ## Delete generated local state after confirmation
 healthcheck: ## Check Compose and application health
 	sitectl healthcheck
 
-test: ## Run custom Drupal tests
+test: ## Verify the running application and run custom Drupal tests when present
 	./scripts/test.sh
 
 lint: ## Lint custom Drupal code

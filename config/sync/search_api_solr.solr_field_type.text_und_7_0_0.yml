@@ -1,7 +1,9 @@
 uuid: 99c039e7-7e42-4a85-8e32-615a33275137
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - search_api_solr
 _core:
   default_config_hash: dCoH-qdMIgVbYTYsOxAhebwOAMS76eSlZ8WT4ActioI
 id: text_und_7_0_0
@@ -60,9 +62,9 @@ field_type:
       filters:
         -
           class: solr.SynonymGraphFilterFactory
+          ignoreCase: true
           synonyms: synonyms_und.txt
           expand: true
-          ignoreCase: true
         -
           class: solr.StopFilterFactory
           ignoreCase: true
@@ -194,11 +196,7 @@ solr_configs:
               VALUE: 'false'
 text_files:
   stopwords: |
-
-  synonyms: |
-    drupal, durpal
   protwords: |
-
   accents: |
     # À => A
     "\u00C0" => "A"
@@ -348,3 +346,5 @@ text_files:
     "\uFB05" => "st"
     # ﬆ => st
     "\uFB06" => "st"
+  synonyms: |
+    drupal, durpal
