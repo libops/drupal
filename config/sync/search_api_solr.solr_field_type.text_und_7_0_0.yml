@@ -1,7 +1,9 @@
 uuid: 99c039e7-7e42-4a85-8e32-615a33275137
 langcode: en
 status: true
-dependencies: {  }
+dependencies:
+  module:
+    - search_api_solr
 _core:
   default_config_hash: dCoH-qdMIgVbYTYsOxAhebwOAMS76eSlZ8WT4ActioI
 id: text_und_7_0_0
