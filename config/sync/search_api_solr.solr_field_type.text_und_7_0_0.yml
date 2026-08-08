@@ -87,7 +87,6 @@ field_type:
           class: solr.LowerCaseFilterFactory
         -
           class: solr.RemoveDuplicatesTokenFilterFactory
-unstemmed_field_type: null
 spellcheck_field_type:
   name: text_spell_und
   class: solr.TextField
@@ -196,11 +195,9 @@ solr_configs:
               VALUE: 'false'
 text_files:
   stopwords: |
-
   synonyms: |
     drupal, durpal
   protwords: |
-
   accents: |
     # À => A
     "\u00C0" => "A"
