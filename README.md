@@ -48,6 +48,7 @@ Check the site and context configuration with [`sitectl healthcheck`](https://si
 
 ```bash
 sitectl healthcheck
+sitectl verify --strict
 sitectl validate
 ```
 
