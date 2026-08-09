@@ -79,6 +79,12 @@ The ingress component writes `INGRESS_HOSTNAMES` as comma-separated hostnames an
 
 See the [Drupal sitectl plugin docs](https://sitectl.libops.io/plugins/drupal) for Drush helpers, development mode, sync operations, login links, and Drupal-specific jobs.
 
+## Versioned runtime programs
+
+Template v1.2.0 adds the container-side readiness, database-migration, and strict-verification programs under `scripts/`. The `drupal` service mounts each program read-only at a stable path under `/usr/local/lib/sitectl`; `sitectl-drupal` invokes those files instead of injecting PHP or shell source through the container command line.
+
+Before stopping a running site, `sitectl deploy` checks that every required source is a regular tracked file, that the shell programs remain executable, and that the Compose service declares every mount read-only. It also asks Compose to confirm that the effective service can use each mounted program. A site created from template v1.1.0 or older must first incorporate the v1.2.0 template changes. An incompatible checkout fails before the existing containers are stopped and identifies the required template version; there is no inline fallback with behavior that could differ from the reviewed checkout.
+
 ## Makefile
 
 The Makefile is intentionally small. It only keeps Drupal-specific targets that are not core sitectl operations:
@@ -99,6 +105,7 @@ Use `sitectl compose ...` and `sitectl set ...` directly for normal stack operat
 - `mariadb` stores application data.
 - `solr` provides search.
 - Secrets are generated into `./secrets/`.
+- Rollout and verification programs are versioned with the site and mounted read-only into `drupal`.
 
 Drupal code is Composer-managed. Custom modules and themes belong under `web/modules/custom` and `web/themes/custom`.
 
