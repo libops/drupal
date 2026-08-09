@@ -103,7 +103,6 @@ services:
         target: /var/www/drupal/private
         read_only: false
       - drupal-solr-config:/opt/solr/server/solr/default:z,rw
-      - ./config:/var/www/drupal/config:z,rw
 
   database-init:
     image: libops/base:3.2.2.0@sha256:851e17742b5fee57038855f46b1a46d2716c0012c5f3a4788b7e5c7bc12fed5e
