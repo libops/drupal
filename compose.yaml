@@ -94,6 +94,13 @@ services:
       - source: CERT_AUTHORITY
       - source: UID
     volumes:
+      - ./scripts/drupal-lint-custom.sh:/usr/local/lib/sitectl/drupal-lint-custom.sh:ro,z
+      - ./scripts/drupal-rollout-migrate.sh:/usr/local/lib/sitectl/drupal-rollout-migrate.sh:ro,z
+      - ./scripts/drupal-test-custom.sh:/usr/local/lib/sitectl/drupal-test-custom.sh:ro,z
+      - ./scripts/drupal-verify-config-drift.php:/usr/local/lib/sitectl/drupal-verify-config-drift.php:ro,z
+      - ./scripts/drupal-verify-cron-queue.php:/usr/local/lib/sitectl/drupal-verify-cron-queue.php:ro,z
+      - ./scripts/drupal-verify-solr.php:/usr/local/lib/sitectl/drupal-verify-solr.php:ro,z
+      - ./scripts/drupal-wait-installed.sh:/usr/local/lib/sitectl/drupal-wait-installed.sh:ro,z
       - type: volume
         source: drupal-public-files
         target: /var/www/drupal/web/sites/default/files
