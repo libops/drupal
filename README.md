@@ -30,7 +30,7 @@ The site is served through Traefik at `http://localhost`. The first boot install
 
 ## Local image build
 
-The `drupal` service builds this checkout on top of the LibOps Drupal base image. The Dockerfile copies Composer lockfiles and assets before local modules, themes, config, and rootfs additions so Docker can reuse dependency layers when only site customizations change. Local builds use the platform selected by the Docker CLI and do not push images.
+The `drupal` service builds this checkout on top of the LibOps Drupal base image. The Dockerfile copies Composer lockfiles and assets before local modules, themes, config, and rootfs additions so Docker can reuse dependency layers when only site customizations change. Checked-in Drupal configuration is copied into the image instead of mounted writable at runtime; rebuild after changing it. This keeps hosted preview containers from changing their deployment checkout. Local builds use the platform selected by the Docker CLI and do not push images.
 
 Docker Compose derives the project name from the checkout directory, so independent forks do not share containers, networks, or named volumes by default. Set `COMPOSE_PROJECT_NAME` explicitly when a stable name is required. If an existing checkout previously relied on this template's fixed `drupal` project name, set `COMPOSE_PROJECT_NAME=drupal` before starting it to keep using its existing named volumes, or migrate those volumes deliberately.
 
