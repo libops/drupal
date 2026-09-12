@@ -32,7 +32,7 @@ secrets:
 
 services:
   init:
-    image: libops/base:3.2.2.0@sha256:aa0c61029734f3293bca068a95c72c0b07ac949292c446c83ada78e81a42c85d
+    image: libops/base:3.2.2.0@sha256:dcbc45a6f61b41d6e849c8920ebca58f26cd65414b3efafbaabc5d04fa95af9d
     restart: no
     networks:
       default:
@@ -54,7 +54,7 @@ services:
 
   mariadb:
     <<: *common
-    image: libops/mariadb:11@sha256:7e0eb90c7cba204b62e8bed72fba00193cbc2e50072fc6e40a6fab8de4b0b857
+    image: libops/mariadb:11@sha256:23619b0490e895e79fd36c84fe2294107708a39bd64d06dabcd57c344c5a4620
     secrets:
       - source: DB_ROOT_PASSWORD
     volumes:
@@ -112,7 +112,7 @@ services:
       - drupal-solr-config:/opt/solr/server/solr/default:z,rw
 
   database-init:
-    image: libops/base:3.2.2.0@sha256:aa0c61029734f3293bca068a95c72c0b07ac949292c446c83ada78e81a42c85d
+    image: libops/base:3.2.2.0@sha256:dcbc45a6f61b41d6e849c8920ebca58f26cd65414b3efafbaabc5d04fa95af9d
     restart: "no"
     networks:
       default:
@@ -134,7 +134,7 @@ services:
 
   solr:
     <<: *common
-    image: libops/solr:9@sha256:d4f5d06c5cba47677ba96580c1a8b524f26f93c0d05392dc287b34da9ca07d86
+    image: libops/solr:9@sha256:56651e8ed4f5bd02f84d9a94088e0268965de52afe613bce8b1eb37232d54265
     volumes:
       - solr-data:/data:rw
       - type: volume
@@ -149,7 +149,7 @@ services:
 
   traefik:
     <<: *common
-    image: traefik:v3.7.9@sha256:652929a140a32d7cafafb13c6cdfab5376cfeff800f51397b87b524501ed02a8
+    image: traefik:v3.7.13@sha256:f86a2cab1b5c649070c49f883c743dd32d8485a56e3368c5f93b9e91f1e91259
     command: >-
       --ping=true
       --log.level=INFO
